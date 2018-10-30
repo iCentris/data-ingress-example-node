@@ -1,0 +1,16 @@
+{
+  "name": "ingress-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jon Cain",
+  "license": "ISC",
+  "dependencies": {
+    "jsonwebtoken": "^8.3.0",
+    "request": "^2.88.0",
+    "uuid": "^3.3.2"
+  }
+}
