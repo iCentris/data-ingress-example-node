@@ -5,28 +5,32 @@
 const config = {
   domain: 'REPLACE_WITH_ICENTRIS_PROVIDED_DOMAIN',
   apiKey: 'REPLACE_WITH_ICENTRIS_PROVIDED_KEY',
+  protocol: 'https',
+  port: 443
 }
 
-const events = [
-  {
-    type: 'TEST_EVENT_IGNORE',
-    contentType: 'application/json',
-    data: () => {
-      return JSON.stringify({ key: 'value' })
-    }
-  },
-  {
-    type: 'TEST_EVENT_STREAM_IGNORE',
-    contentType: 'application/x-ndjson',
-    data: () => {
-      let content = ''
-      for (let i = 1; i <= 10; i++) {
-        content += `{ "id":  ${i}, "first_name": "Test ${i}", "last_name": "Tester ${i}" }\n`
-      }
-      return content.trim()
-    }
-  }
-]
+const createRoot = require('./requests/events/create-root')
+const createOne = require('./requests/events/create-one')
+const placeRoot = require('./requests/events/place-root')
+const placeOne = require('./requests/events/place-one')
+const test = require('./requests/events/test')
+const payloadValidation = require('./requests/events/payloadValidation')
+const health = require('./requests/events/health')
+const invalidEventError = require('./requests/events/invalidEventError')
+const order = require('./requests/objects/order')
+const user = require('./requests/objects/user')
+
+const requests = []
+// requests.push(createRoot)
+// requests.push(createOne)
+// requests.push(placeRoot)
+// requests.push(placeOne)
+// requests.push(health)
+requests.push(test)
+// requests.push(payloadValidation)
+// requests.push(invalidEventError)
+// requests.push(order)
+// requests.push(user)
 
 const request = require('request')
 const jwt = require('jsonwebtoken')
@@ -46,9 +50,10 @@ console.log(`Refresh Token: ${refreshToken}\n`)
 
 /* ********************************************************************** */
 // then get your session / access token
-console.log(`Signin at: https://${config.domain}/auth/v0/access\n`)
+console.log(`Signin at: ${config.protocol}://${config.domain}:${config.port}/auth/v0/access\n`)
+console.log(refreshToken)
 let accessToken = ''
-request.post(`https://${config.domain}/auth/v0/access`,
+request.post(`${config.protocol}://${config.domain}:${config.port}/auth/v0/access`,
     { form: {
       client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
       client_assertion: refreshToken
@@ -63,21 +68,31 @@ request.post(`https://${config.domain}/auth/v0/access`,
       console.log(`Access Token: ${accessToken}\n`)
 
       /* ********************************************************************** */
-      // now submit the events
-      events.forEach((event) => {
-        request.post(`https://${config.domain}/data/v1/event/${event.type}`,
-        { body: event.data(),
-          headers: {
-            'Authorization': 'Bearer ' + accessToken,
-            'Content-type': event.contentType
-          }
-        }, (err, res, body) => {
-          if (err) { console.log(err) }
-          if (res.statusCode === 204) {
-              console.log(`${event.type} Event Submitted`)
-          } else {
-              console.log("Unexpected result=" + res.statusCode)
-          }
-        })
+      // now submit the requests
+      requests.forEach((_request) => {
+        if (_request.method === 'GET') {
+          console.log(`GET: ${_request.path}`)
+          request.get(`${config.protocol}://${config.domain}:${config.port}${_request.path}`, null, handler)
+        }
+        else {
+          console.log(`POST: ${_request.path}`)
+          request.post(`${config.protocol}://${config.domain}:${config.port}${_request.path}`,
+          { body: _request.data(),
+            headers: {
+              'Authorization': 'Bearer ' + accessToken,
+              'Content-type': _request.contentType
+            }
+          }, handler)
+        }
       })
     })
+
+    const handler = (err, res, body) => {
+      if (err) { console.log(err) }
+      if (res.statusCode === 204) {
+        console.log(`Success: status ${res.statusCode}`)
+      } else {
+        console.log(`Error: status ${res.statusCode}`)
+        console.log(res.body)
+      }
+    }
