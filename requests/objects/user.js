@@ -8,6 +8,7 @@ module.exports = {
         client_user_id: '1',
         first_name: 'John',
         last_name: 'Doe',
+        email: 'test@test.com',
         rank: {
           id: '1'
         }
