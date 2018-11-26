@@ -19,6 +19,7 @@ const health = require('./requests/events/health')
 const invalidEventError = require('./requests/events/invalidEventError')
 const order = require('./requests/objects/order')
 const user = require('./requests/objects/user')
+const base64 = require('base-64')
 
 const requests = []
 // requests.push(createRoot)
@@ -26,17 +27,17 @@ const requests = []
 // requests.push(placeRoot)
 // requests.push(placeOne)
 // requests.push(health)
-requests.push(test)
+// requests.push(test)
 // requests.push(payloadValidation)
 // requests.push(invalidEventError)
 // requests.push(order)
-// requests.push(user)
+requests.push(user)
 
 const request = require('request')
 const jwt = require('jsonwebtoken')
 const uuid4 = require('uuid/v4')
 const apiKeyId = config.apiKey.split('.')[0]
-const apiKeySecret = config.apiKey.split('.')[1]
+const apiKeySecret = base64.decode(config.apiKey.split('.')[1])
 
 /* ********************************************************************** */
 // create your own JWT as a signin (aka refresh token) using our shared secret
