@@ -9,6 +9,7 @@
   "author": "Jon Cain",
   "license": "ISC",
   "dependencies": {
+    "base-64": "^0.1.0",
     "jsonwebtoken": "^8.3.0",
     "request": "^2.88.0",
     "uuid": "^3.3.2"
