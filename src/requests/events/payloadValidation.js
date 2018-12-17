@@ -3,6 +3,6 @@ module.exports = {
   method: 'POST',
   contentType: 'application/json',
   data: () => {
-    return JSON.stringify({ client_user_id: '1', first_name: 'John', last_name: 'Doe', rank: { id: '1' } })
+    return JSON.stringify({ client_user_id: '1', first_name: 'John', last_name: 'Doe', email: 'test@tester.com', rank: { id: '1' } })
   }
 }

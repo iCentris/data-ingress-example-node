@@ -3,8 +3,8 @@
 // Node.js v10.4.1
 
 const config = {
-  domain: 'REPLACE_WITH_ICENTRIS_PROVIDED_DOMAIN',
-  apiKey: 'REPLACE_WITH_ICENTRIS_PROVIDED_KEY',
+  domain: 'CHANGE_ME_FROM_REFLEX_CONIFG',
+  apiKey: 'CHANGE_ME_FROM_REFLEX_CONIFG',
   protocol: 'https',
   port: 443
 }
@@ -13,6 +13,7 @@ const createRoot = require('./requests/events/create-root')
 const createOne = require('./requests/events/create-one')
 const placeRoot = require('./requests/events/place-root')
 const placeOne = require('./requests/events/place-one')
+const commissionUpdated = require('./requests/events/commission_updated')
 const test = require('./requests/events/test')
 const payloadValidation = require('./requests/events/payloadValidation')
 const health = require('./requests/events/health')
@@ -27,11 +28,12 @@ const requests = []
 // requests.push(placeRoot)
 // requests.push(placeOne)
 // requests.push(health)
+requests.push(commissionUpdated)
 // requests.push(test)
 // requests.push(payloadValidation)
 // requests.push(invalidEventError)
 // requests.push(order)
-requests.push(user)
+// requests.push(user)
 
 const request = require('request')
 const jwt = require('jsonwebtoken')
