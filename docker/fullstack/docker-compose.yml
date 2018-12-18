@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+  nodejs:
+    image: data-ingress-example:fullstack
+    hostname: "data-ingress-example"
+    build:
+      context: ../..
+      dockerfile: docker/fullstack/Dockerfile
+      args:
+        - EXTUSER=${USER}
+    environment:
+      - NODE_ENV=local
+      - EXTUSER=${USER}
+    volumes:
+      - ~/.bash_aliases:/app/.bash_aliases:ro
+      - ~/.bashrc:/app/.bashrc:ro
+      - ../../src:/app/data-ingress-example/src
+    tty: true
