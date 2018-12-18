@@ -20,6 +20,7 @@ Use the `fullstack` container, get a shell in it and install initial dependencie
 ./local up fullstack -d   # run a shell as the local shared volume container
 ./local sh fullstack      # get a shell in the (now up) fullstack/leo-bus container
 npm install             # this last is run within the container
+node index.js           # Run the program to push an event/object
 ```
 
 ### Local Testing
