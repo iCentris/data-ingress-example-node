@@ -3,8 +3,8 @@
 // Node.js v10.4.1
 
 const config = {
-  domain: 'CHANGE_ME_FROM_REFLEX_CONIFG',
-  apiKey: 'CHANGE_ME_FROM_REFLEX_CONIFG',
+  domain: 'REPLACE_WITH_ICENTRIS_PROVIDED_DOMAIN',
+  apiKey: 'REPLACE_WITH_ICENTRIS_PROVIDED_KEY',
   protocol: 'https',
   port: 443
 }
