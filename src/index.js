@@ -9,10 +9,11 @@ const config = {
   port: 443
 }
 
-const createRoot = require('./requests/events/create-root')
-const createOne = require('./requests/events/create-one')
-const placeRoot = require('./requests/events/place-root')
-const placeOne = require('./requests/events/place-one')
+const dealershipCreated = require('./requests/events/dealership-created')
+const dealershipEnrollerChanged = require('./requests/events/dealership-enroller-changed')
+const dealershipSponsorshipChanged = require('./requests/events/dealership-sponsorship-changed')
+const customerEnrollment =  require('./requests/events/customer-enrollment')
+const orderCreated = require('./requests/events/order-created')
 const dealerUpdated = require('./requests/events/dealer_updated')
 const commissionUpdated = require('./requests/events/commission_updated')
 const test = require('./requests/events/test')
@@ -26,13 +27,14 @@ const seed = require('./requests/objects/seed')
 const base64 = require('base-64')
 
 const requests = []
-// requests.push(createRoot)
-// requests.push(createOne)
-// requests.push(placeRoot)
-// requests.push(placeOne)
-// requests.push(health)
+// requests.push(dealershipCreated)
+// requests.push(dealershipEnrollerChanged)
+// requests.push(dealershipSponsorshipChanged)
+// requests.push(customerEnrollment)
+// requests.push(orderCreated)
+requests.push(health)
 // requests.push(dealerUpdated)
-requests.push(commissionUpdated)
+// requests.push(commissionUpdated)
 // requests.push(test)
 // requests.push(payloadValidation)
 // requests.push(invalidEventError)
@@ -60,7 +62,7 @@ console.log(`Refresh Token: ${refreshToken}\n`)
 /* ********************************************************************** */
 // then get your session / access token
 console.log(`Signin at: ${config.protocol}://${config.domain}:${config.port}/auth/v0/access\n`)
-console.log(refreshToken)
+console.log('refreshToken', refreshToken)
 let accessToken = ''
 request.post(`${config.protocol}://${config.domain}:${config.port}/auth/v0/access`,
     { form: {
@@ -79,12 +81,14 @@ request.post(`${config.protocol}://${config.domain}:${config.port}/auth/v0/acces
       /* ********************************************************************** */
       // now submit the requests
       requests.forEach((_request) => {
+        console.log('content-type', _request.contentType)
         if (_request.method === 'GET') {
           console.log(`GET: ${_request.path}`)
           request.get(`${config.protocol}://${config.domain}:${config.port}${_request.path}`, null, handler)
         }
         else {
           console.log(`POST: ${_request.path}`)
+          console.log(_request.data())
           request.post(`${config.protocol}://${config.domain}:${config.port}${_request.path}`,
           { body: _request.data(),
             headers: {

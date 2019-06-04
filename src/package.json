@@ -10,8 +10,10 @@
   "license": "ISC",
   "dependencies": {
     "base-64": "^0.1.0",
+    "faker": "^4.1.0",
     "jsonwebtoken": "^8.3.0",
     "request": "^2.88.0",
+    "save": "^2.3.3",
     "uuid": "^3.3.2"
   }
 }
