@@ -9,7 +9,7 @@ module.exports = {
       order_id: '456',
       client_user_id: '00001',
       order_date: '2018-01-01 04:50:02',
-      //total: "20.00",
+      total: 20.00,
       status: {
         id: '1',
         description: 'In Progress'
